@@ -29,7 +29,7 @@ public sealed class PicoToVamConverter : VAMConverter<BlendShape>
         convertedData["Eye_Blink_Left"] = originalData[BlendShape.EyeBlink_L];
         convertedData["Eye_Blink_Right"] = originalData[BlendShape.EyeBlink_R];
 
-        convertedData["Eye_X_Left"] = originalData[BlendShape.EyeLookIn_L] - originalData[BlendShape.EyeLookOut_L];
+        convertedData["Eye_X_Left"] = originalData[BlendShape.EyeLookOut_L] - originalData[BlendShape.EyeLookIn_L];
         convertedData["Eye_Y_Left"] = originalData[BlendShape.EyeLookUp_L] - originalData[BlendShape.EyeLookDown_L];
 
         convertedData["Eye_X_Right"] = originalData[BlendShape.EyeLookOut_R] - originalData[BlendShape.EyeLookIn_R];
