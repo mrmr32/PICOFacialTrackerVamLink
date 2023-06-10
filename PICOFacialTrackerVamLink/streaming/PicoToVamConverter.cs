@@ -17,9 +17,38 @@ public sealed class PicoToVamConverter : VAMConverter<BlendShape>
         Dictionary<string,float> convertedData = new Dictionary<string,float>();
         IDictionary<BlendShape, float> originalData = this.provider.GetData();
 
+        UpdateEye(ref convertedData, originalData);
+        UpdateEyeExpression(ref convertedData, originalData);
         UpdateExpression(ref convertedData, originalData);
 
         return convertedData;
+    }
+
+    private static void UpdateEye(ref Dictionary<string, float> convertedData, IDictionary<BlendShape, float> originalData)
+    {
+        convertedData["Eye_Blink_Left"] = originalData[BlendShape.EyeBlink_L];
+        convertedData["Eye_Blink_Right"] = originalData[BlendShape.EyeBlink_R];
+
+        convertedData["Eye_X_Left"] = originalData[BlendShape.EyeLookIn_L] - originalData[BlendShape.EyeLookOut_L];
+        convertedData["Eye_Y_Left"] = originalData[BlendShape.EyeLookUp_L] - originalData[BlendShape.EyeLookDown_L];
+
+        convertedData["Eye_X_Right"] = originalData[BlendShape.EyeLookOut_R] - originalData[BlendShape.EyeLookIn_R];
+        convertedData["Eye_Y_Right"] = originalData[BlendShape.EyeLookUp_R] - originalData[BlendShape.EyeLookDown_R];
+    }
+    private static void UpdateEyeExpression(ref Dictionary<string, float> convertedData, IDictionary<BlendShape, float> originalData)
+    {
+        #region Brow Shapes
+        // @see https://developer.apple.com/documentation/arkit/arfaceanchor/blendshapelocation#2929004
+        convertedData["Brow_Down_Left"] = originalData[BlendShape.BrowDown_L];
+        convertedData["Brow_Down_Right"] = originalData[BlendShape.BrowDown_R];
+        convertedData["Brow_Inner_Up"] = originalData[BlendShape.BrowInnerUp];
+        convertedData["Brow_Outer_Up_Left"] = originalData[BlendShape.BrowOuterUp_L];
+        convertedData["Brow_Outer_Up_Right"] = originalData[BlendShape.BrowOuterUp_R];
+        #endregion
+        #region Eye Shapes
+        convertedData["Eye_Squint_Left"] = originalData[BlendShape.EyeSquint_L];
+        convertedData["Eye_Squint_Right"] = originalData[BlendShape.EyeSquint_R];
+        #endregion
     }
 
     // @see https://hub.vive.com/storage/docs/en-us/UnityXR/UnityXRLipExpression.html
