@@ -10,7 +10,7 @@ You'll have to install [.NET 6.0](https://dotnet.microsoft.com/es-es/download/do
 
 - Run Streaming Assistant (version 9.4.15 or greater)
 - Run the PICOFacialTrackerVamLink .exe
-- Run VAM and open an scene with [Vive Facial Tracker Plugin](https://hub.virtamate.com/resources/vive-facial-tracker-plugin.5896/)
+- Run VAM and open an scene with [Vive Facial Tracker Plugin](https://hub.virtamate.com/resources/vive-facial-tracker-plugin.5896/) or [PICO Facetracking Plugin](https://hub.virtamate.com/resources/pico-facetracking.35290/)
 
 ### Thanks to
 
