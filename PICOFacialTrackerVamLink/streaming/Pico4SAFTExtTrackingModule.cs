@@ -30,13 +30,12 @@ public sealed class Pico4SAFTExtTrackingModule : IDisposable
 
         this.server = new PICOServer(IP_ADDRESS, PICO_PORT_NUMBER, logger);
         this.client = new VAMClient<BlendShape>(IP_ADDRESS, VAM_PORT_NUMBER, new PicoToVamConverter(this.server), logger);
-
-        this.logger.HideButton(); // TODO allow users to re-try
-        this.Initialize();
     }
 
     public void Initialize()
     {
+        this.logger.HideButton(); // TODO allow users to re-try
+
         int retry = 0;
         if (!StreamerValidity())
         {

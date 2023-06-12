@@ -74,6 +74,8 @@ public sealed class PICOServer : IDisposable, DataProvider<BlendShape>
     {
         try
         {
+            this.udpClient.Client.ReceiveTimeout = 5000;
+
             while (!this.stopped)
             {
                 unsafe
@@ -106,17 +108,24 @@ public sealed class PICOServer : IDisposable, DataProvider<BlendShape>
         {
             this.logger.ShowText("Unexpected exceptions: " + ex.ToString(), LogDisplayer.Color.RED);
         }
-
-        this.udpClient.Client.ReceiveTimeout = 5000;
     }
 
     public void Dispose()
     {
-        this.stopped = true;
-        this.thread?.Join();
-
+        // we need to first clode the socket, or the code will be blocked
         udpClient.Client.Blocking = false;
         udpClient.Dispose();
+
+        this.stopped = true;
+        if (this.thread != null)
+        {
+            this.thread!.Interrupt();
+            if (!this.thread!.Join(8000))
+            {
+                this.thread!.Abort();
+            }
+            this.thread = null;
+        }
     }
 
     public bool IsNewDataAvailable()

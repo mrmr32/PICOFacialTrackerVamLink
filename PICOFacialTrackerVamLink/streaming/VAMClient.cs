@@ -80,6 +80,7 @@ public sealed class VAMClient<T> : IDisposable
         this.stopped = true;
         this.thread?.Join();
 
+        this.socket.Close();
         this.socket.Dispose();
     }
 }

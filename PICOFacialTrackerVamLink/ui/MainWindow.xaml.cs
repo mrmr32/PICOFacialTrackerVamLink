@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,31 +29,44 @@ public partial class MainWindow : Window, LogDisplayer
 
     public void HideButton()
     {
-        this.Dispatcher.Invoke(new Action(() => {
-            Btn.Visibility = Visibility.Hidden;
-        }));
+        try
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                Btn.Visibility = Visibility.Hidden;
+            }));
+        }
+        catch (TaskCanceledException ignore) { }
+        catch (ThreadInterruptedException ignore) { }
     }
 
     public void ShowButton(string btnMsg, LogDisplayer.ButtonPressed callback)
     {
-        this.Dispatcher.Invoke(new Action(() => {
-            Btn.Content = btnMsg;
-            this.callback = callback;
-        }));
+        try
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                Btn.Content = btnMsg;
+                this.callback = callback;
+            }));
+        }
+        catch (TaskCanceledException ignore) { }
+        catch (ThreadInterruptedException ignore) { }
     }
 
     public void ShowText(string text, LogDisplayer.Color color)
     {
-        this.Dispatcher.Invoke(new Action(() => {
-            Text.Text = text;
-            Text.Foreground = color.Equals(LogDisplayer.Color.BLACK) ? Brushes.Black : Brushes.Red;
-        }));
+        try
+        {
+            this.Dispatcher.Invoke(new Action(() => {
+                Text.Text = text;
+                Text.Foreground = color.Equals(LogDisplayer.Color.BLACK) ? Brushes.Black : Brushes.Red;
+            }));
+        }
+        catch (TaskCanceledException ignore) { }
+        catch (ThreadInterruptedException ignore) { }
     }
 
     private void Btn_Click(object sender, RoutedEventArgs e)
     {
-        this.Dispatcher.Invoke(new Action(() => {
-            this.callback?.OnButtonPressed();
-        }));
+        this.callback?.OnButtonPressed();
     }
 }

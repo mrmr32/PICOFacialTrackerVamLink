@@ -42,6 +42,7 @@ public partial class App : Application
     static void InitializeModule()
     {
         module = new Pico4SAFTExtTrackingModule(logger);
+        module.Initialize();
     }
 
     protected override void OnExit(ExitEventArgs e)

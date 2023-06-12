@@ -38,7 +38,10 @@ public class Logger : LogDisplayer, LogDisplayer.ButtonPressed, IDisposable
 
     public void Dispose()
     {
+        if (this.streamWriter == null) return;
+
         this.streamWriter?.Dispose();
+        this.streamWriter = null;
     }
 
     public void HideButton()
@@ -48,8 +51,8 @@ public class Logger : LogDisplayer, LogDisplayer.ButtonPressed, IDisposable
 
     public void OnButtonPressed()
     {
-        this.streamWriter.WriteLine(DateTime.Now.ToString() + " - Button {} pressed", this.btnText);
-        this.streamWriter.Flush();
+        this.streamWriter?.WriteLine(DateTime.Now.ToString() + " - Button {} pressed", this.btnText);
+        this.streamWriter?.Flush();
 
         // call the real callback
         this.btnCallback?.OnButtonPressed();
@@ -65,8 +68,8 @@ public class Logger : LogDisplayer, LogDisplayer.ButtonPressed, IDisposable
 
     public void ShowText(string text, LogDisplayer.Color color = LogDisplayer.Color.BLACK)
     {
-        this.streamWriter.WriteLine(DateTime.Now.ToString() + " - New message: " + text);
-        this.streamWriter.Flush();
+        this.streamWriter?.WriteLine(DateTime.Now.ToString() + " - New message: " + text);
+        this.streamWriter?.Flush();
 
         this.intercepting.ShowText(text, color);
     }
